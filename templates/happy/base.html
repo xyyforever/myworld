@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"/>
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <!-- ZUI 标准版压缩后的 CSS 文件 -->
+    <link rel="stylesheet" href="//cdn.bootcss.com/zui/1.8.1/css/zui.min.css">
+
+    {% block styles %}
+
+    {% endblock %}
+</head>
+<body>
+{% block header %}
+
+{% endblock %}
+<div id="bigmain">
+   {% block content %}
+
+    {% endblock %}
+</div>
+
+
+
+
+<!-- ZUI Javascript 依赖 jQuery -->
+<script type="text/javascript" src="//cdn.bootcss.com/zui/1.8.1/lib/jquery/jquery.js"></script>
+<!-- ZUI 标准版压缩后的 JavaScript 文件 -->
+<script type="text/javascript" src="//cdn.bootcss.com/zui/1.8.1/js/zui.min.js"></script>
+<script type="text/javascript" src="{% static 'js/base.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/csrf_solve.js' %}"></script>
+
+{% block scripts %}
+
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+{% extends 'happy/base_index.html' %}
+
+{% load static %}
+
+
+{% block styles %}
+    <style>
+        .addrtag{
+            width:100%;
+            position:absolute;
+            top:0;
+            left:0;
+            background:#fff;
+        }
+        .i-title{
+            font-size:16px;
+            color:#179cfb;
+            padding:10px 20px;
+        }
+        .chosead{
+            width:100%;
+            height:40px;
+            border-bottom:1px solid #eee;
+        }
+        .chosead ul{width:100%;overflow:hidden;}
+        .chosead ul li{
+            width:100px;
+            height:40px;
+            text-align:center;
+            line-height:40px;
+            float:left;
+            color:#404040;
+        }
+        .chosead ul li:hover{
+            color:#179cfb;
+        }
+        .iscurrent{
+            color:#179cfb!important;
+            border-bottom:2px solid blue;
+            box-sizing:border-box;
+        }
+        .poslist{
+            width:98%;
+            min-width:800px;
+            height:100%;
+            padding-top:100px;
+            box-sizing:border-box;
+            overflow:auto;
+            margin:0 auto;
+        }
+        .poslist ul.islist{width:100%;}
+        .poslist ul.islist li{
+            width:100%;
+            height:80px;
+            border-bottom:1px solid #ddd;
+            padding-top:16px;
+        }
+        .poslist ul.islist li:hover{
+            background:#eee;
+        }
+        .poslist ul.islist li>div{
+            width:33.3%;
+            float:left;
+            padding:0 20px;
+        }
+        .pos_left > div > a{
+            font-size:16px;
+            cursor: pointer;
+            display:inline-block;
+            max-width:150px;
+            float:left;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+            margin-right:5px;
+        }
+        .pos_left > div > span{
+            display:inline-block;
+            float:left;
+            margin-top:4px;
+        }
+        p.repinfo{
+            margin-top: 2px;
+            font-size: 12px;
+            color: #9fa3b0;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .vline{
+            display: inline-block;
+            width: 1px;
+            height: 12px;
+            vertical-align: middle;
+            background: #e0e0e0;
+            margin: 0 10px;
+            font-style: normal;
+        }
+        .pos_right img{
+            width:18px;
+            height:18px;
+            border-radius: 50%;
+            margin-right:10px;
+        }
+        .pager{
+            margin-left:25%;
+        }
+    </style>
+{% endblock %}
+
+
+{% block contens %}
+    <div class="addrtag">
+        <p class="i-title">python职位</p>
+        <div class="chosead">
+            <ul>
+                {% if type == '全国' %}
+                    <a href="/python_pos/全国/"><li class="iscurrent">全国</li></a>
+                    <a href="/python_pos/上海/"><li>上海</li></a>
+                {% elif type == '上海' %}
+                    <a href="/python_pos/全国/"><li>全国</li></a>
+                    <a href="/python_pos/上海/"><li class="iscurrent">上海</li></a>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="poslist">
+        <ul class="islist">
+            {% for item in python_list %}
+            <li>
+                <div class="pos_left">
+                    <div>
+                        <a target="_blank" href="{{ item.job_require }}">{{ item.job_title }}</a>
+                        <span style="color:red">{{ item.salary }}</span>
+                    </div>
+                    <p class="repinfo">{{ item.work_city }} <em class="vline"></em> {{ item.work_exp }} <em class="vline"></em> {{ item.education }}</p>
+                </div>
+                <div class="pos_center">
+                    <div>
+                        <a target="_blank" href="{{ item.compdetail_href }}" style="font-size:16px;color:#404040;cursor: pointer">{{ item.compname }}</a>
+                    </div>
+                    <p class="repinfo">{{ item.workinfo2 }}</p>
+                </div>
+                <div class="pos_right">
+                    <div style="text-align:right;">
+                        <img src="{{ item.head_pic }}" />
+                        <span>{{ item.workinfo3 }}</span>
+                    </div>
+                    <p class="repinfo" style="text-align:right;">{{ item.public_time }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!--分页-->
+
+        <ul class="pager">
+            {% if page.has_previous %}
+                    <li class="previous">
+                    <a href="/python_pos/{{ type }}/{{ page.previous_page_number }}/" aria-label="Previous">
+                       &laquo;
+                    </a>
+                {% else %}
+                    <li class="previous" disabled="disabled">
+                    <a href="javascript:">
+                       <span aria-hidden="true">&laquo;</span>
+                    </a>
+                {% endif %}
+          </li>
+          {% for item in pagelist %}
+            {% if page.number == item %}
+                <li class="active">
+            {% else %}
+                <li>
+            {% endif %}
+            <a href="/python_pos/{{ type }}/{{ item }}/">{{ item }}</a></li>
+          {% endfor %}
+          {% if page.has_next %}
+               <li class="next">
+                <a href="/python_pos/{{ type }}/{{page.next_page_number}}/">
+                   &raquo;
+                </a>
+          {% else %}
+                <li class="next" disabled="disabled">
+                <a href="javascript:">
+                   &raquo;
+                </a>
+          {% endif %}
+          </li>
+        </ul>
+    </div>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+    <script>
+        $("#treeMenu li").removeClass("active").removeClass('open');
+        $('#treeMenu li:nth-child(6)').addClass('open');
+        $('#treeMenu li:nth-child(6)').find('li:first-child').addClass('active');
+
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+

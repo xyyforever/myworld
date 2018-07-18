@@ -1,0 +1,83 @@
+{% extends 'happy/base_index.html' %}
+
+{% load static %}
+
+
+{% block styles %}
+    <style>
+        .isfirst{
+            width:100%;
+            height:100%;
+            min-width:800px;
+            position:relative;
+        }
+        .isfirst img{
+            width:100%;
+            height:100%;
+        }
+        .ispace{
+            width:100%;
+            height:100%;
+            position:absolute;
+            top:0;
+            left:0;
+            padding-top:200px;
+            box-sizing:border-box;
+        }
+        .ispace div{
+            width:100%;
+            height:50px;
+            text-align:center;
+            font-size:35px;
+            line-height:50px;
+        }
+        .poetry{
+            width:250px;
+            padding-top:40px;
+            position:absolute;
+            top:0;
+            left:0;
+            text-align:center;
+        }
+    </style>
+{% endblock %}
+
+
+{% block contens %}
+  <div class="isfirst">
+      <img src="{% static 'img/bg2.jpg' %}" />
+      <div class="ispace">
+          <div>每个人都有属于自己的</div>
+          <div>个人空间</div>
+          <div>让我们在这方天地中</div>
+          <div>随心而动</div>
+          <p class="poetry">
+              面朝大海，春暖花开<br><br>
+               从明天起，做一个幸福的人<br>
+                喂马、劈柴，周游世界<br>
+                从明天起，关心粮食和蔬菜<br>
+                我有一所房子，面朝大海，春暖花开<br><br>
+                从明天起，和每一个亲人通信<br>
+                告诉他们我的幸福<br>
+                那幸福的闪电告诉我的<br>
+                我将告诉每一个人<br><br>
+                给每一条河每一座山取一个温暖的名字<br>
+                陌生人，我也为你祝福<br>
+                愿你有一个灿烂的前程<br>
+                愿你有情人终成眷属<br>
+                愿你在尘世获得幸福<br>
+                我只愿面朝大海，春暖花开<br>
+          </p>
+      </div>
+  </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

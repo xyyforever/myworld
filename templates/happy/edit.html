@@ -1,0 +1,72 @@
+{% extends 'happy/base_index.html' %}
+
+{% load static %}
+
+
+{% block styles %}
+    <style>
+        #edit{
+            width:100%;
+            height:100%;
+            padding-top:60px;
+            box-sizing: border-box;
+        }
+        #edit img{
+            width:200px;
+            height:200px;
+            display:block;
+            border-radius: 10px;
+            margin:0 auto;
+            margin-bottom:15px;
+        }
+        #edit form{
+            text-align:center;
+        }
+        .uppic{
+            width:200px;
+            margin-left:.5rem;
+            display:inline!important;
+        }
+        .editname{
+            width:100%;
+            background:#fff;
+            padding:0.5rem;
+            margin-top:20px;
+            margin-left:35%;
+            font-size:16px;
+        }
+    </style>
+{% endblock %}
+
+
+{% block contens %}
+    <div id="edit">
+        <img src="/static/uploads/{{ user.icon }}" />
+        <form action="/uploadpic/" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <input type="file" name="file" class="uppic" />
+            <button type="commit">确定上传</button>
+        </form>
+
+        <div class="editname">名称：<span>{{ user.uname }}</span></div>
+    </div>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+    <script>
+        $("#treeMenu li").removeClass("active").removeClass('open');
+        $('#treeMenu > li:nth-child(2)').addClass('active');
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+

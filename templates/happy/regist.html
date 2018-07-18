@@ -1,0 +1,127 @@
+{% extends 'happy/base.html' %}
+
+{% load static %}
+
+
+{% block styles %}
+    <style>
+        #regstpg{
+            width:100%;
+            height:100%;
+            padding-top:60px;
+            box-sizing: border-box;
+            display:none;
+        }
+        .tlogo{
+            width:200px;
+            display:block;
+            margin:0 auto;
+        }
+        #regstpg div{
+            text-align:center;
+        }
+        #regstpg div input{
+            padding:10px 5px;
+            border-radius: 4px;
+            outline: none;
+            border:none;
+            border:1px solid #179cfb;
+            width:340px;
+            margin:20px 0;
+        }
+        .regbtn{
+            width:400px;
+            height:50px;
+            display:block;
+            font-size:14px;
+            margin:0 auto;
+            background: #179cfb;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            outline: none;
+            border:none;
+            margin-top:20px;
+            color:#fff;
+        }
+        .regbtn:active{
+            opacity: 0.8;
+        }
+        #regstpg p{
+            width:400px;
+            margin:0 auto;
+            margin-top:20px;
+        }
+    </style>
+{% endblock %}
+
+
+{% block header %}
+    <header>
+        <div class="hleft" style="float:right;">
+            <span class="onlog"><a href="/jumplogin/">登录</a></span>&nbsp;&nbsp;&nbsp;<span class="onlog" style="display:none;">|</span>&nbsp;&nbsp;&nbsp;
+            <span class="onlog"><a href="/jumpregist/">注册</a></span>
+        </div>
+    </header>
+{% endblock %}
+
+{% block content %}
+     <div id="regstpg">
+        <img src="{% static 'img/logo.jpg' %}" class="tlogo" />
+        <div>
+            用 &nbsp;户 &nbsp;名：<input type="text" placeholder="请输入用户名" class="user_name" />
+        </div>
+        <div>
+            密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：<input type="password" placeholder="请输入密码" class="user_pass" />
+        </div>
+        <div>
+            确认密码：<input type="password" placeholder="请确认密码" class="sure_pass" />
+        </div>
+        <button class="regbtn" onclick="registnow(this)">立即注册</button>
+        <p>
+            <span style="float:left;"><a href="/jumplogin/">已有帐号,去登录</a></span>
+        </p>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        $(function(){
+            $("#regstpg").show();
+        });
+
+        function registnow(obj){
+            var pwname = $('.user_name').val(),pwpwd = $('.user_pass').val(),surepwd = $(".sure_pass").val();
+            console.log(pwname,pwpwd,surepwd);
+            $.ajax({
+                url:'/regist/',
+                type:'post',
+                data:{'pwname':pwname,'pwpwd':pwpwd,'surepwd':surepwd},
+                success:function(data){
+                    console.log(data)
+                    if(data.result=='200'){
+                        local.set("userInfo",{"token":data.token,"userId":data.user_id,"userName":data.user_name});
+                        window.location.href="/"
+
+                    }else{
+                        alert(data.msg)
+                    }
+
+                },
+                error:function(){
+                    alert('请求错误，请稍后重试！')
+                }
+            });
+        }
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+

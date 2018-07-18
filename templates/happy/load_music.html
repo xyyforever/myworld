@@ -1,0 +1,150 @@
+{% extends 'happy/base_index.html' %}
+
+{% load static %}
+
+
+{% block styles %}
+    <style>
+        #loadmusic{
+            width:100%;
+            height:100%;
+            position:relative;
+        }
+        #loadmusic ul{
+            width:100%;
+            padding-top:60px;
+            box-sizing:border-box;
+        }
+        #loadmusic ul li{
+            width:100%;
+            height:50px;
+            overflow:hidden;
+            background:#fff;
+            padding-right:10px;
+            border-bottom:1px solid #ccc;
+        }
+        ul li div{
+            height:100%;
+            line-height:50px;
+            text-align: center;
+            float:left;
+            overflow:auto;
+            padding:0 10px;
+        }
+        ul li .ltitle{
+            width:40%;
+            border-right:1px solid #ccc;
+            box-sizing:border-box;
+            font-size:14px;
+        }
+        ul li .rpath{
+            width:60%;
+            font-size:10px;
+            box-sizing:border-box;
+        }
+        .rpath a{
+            color:#179cfb;
+        }
+        ::-webkit-scrollbar{
+            width:0;
+        }
+        .searchtop{
+            width:100%;
+            height:60px;
+            background:yellow;
+            padding:12px 0px;
+            position:absolute;
+            top:0;
+            left:0;
+        }
+        .singername{
+            width:60%;
+            height:30px;
+            padding:5px 10px;
+            font-size:14px;
+            margin-left:10%;
+        }
+        .searchtop button{
+            padding:5px 10px;
+            font-size:14px;
+        }
+        .isno{
+            height:100px;
+            line-height:100px;
+            text-align:center;
+        }
+    </style>
+{% endblock %}
+
+
+{% block contens %}
+    <div id="loadmusic">
+        <div class="searchtop">
+           <input type="search" placeholder="请输入歌手名称" class="singername" />
+            <button onclick="getlist()">点击搜索</button>
+        </div>
+
+        <ul>
+            <li>
+                <div class="ltitle" style="font-size:14px;">歌曲名称</div>
+                <div class="rpath" style="font-size:14px;">歌曲下载链接</div>
+            </li>
+            <div class="isno">请输入歌手搜索歌曲下载......</div>
+        </ul>
+    </div>
+    <div class="waitting" style="display:none;"></div>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+    <script>
+        $("#treeMenu li").removeClass("active").removeClass('open');
+        $('#treeMenu li:nth-child(3)').addClass('open');
+        $('#treeMenu li:nth-child(3)').find('li:last-child').addClass('active');
+
+        function getlist(){
+            var name=$(".singername").val();
+            $(".waitting").show();
+            $(".isno").hide();
+            $.ajax({
+                url:'/to_load/',
+                type:'get',
+                data:{'name':name},
+                success:function(data){
+                    console.log(data);
+                    $(".waitting").hide();
+                    var ohtml='';
+                    var odata=data.musiclist;
+                    if(odata.length){
+                        for(var i=0;i<odata.length;i++){
+                            ohtml+='<li><div class="ltitle">'+odata[i][0]
+                                +'</div><div class="rpath"><a href="'+odata[i][1]
+                                +'" download="music'+i
+                                +'.mp3">'+odata[i][1]
+                                +'</a></div></li>';
+                        }
+                        $('#loadmusic ul').append(ohtml)
+                    }else{
+                        $('#loadmusic ul').append('<li>没有歌曲</li>')
+                    }
+                },
+                errer:function(){
+                    alert('cuole');
+                    $(".waitting").hide();
+                }
+            })
+        }
+
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+

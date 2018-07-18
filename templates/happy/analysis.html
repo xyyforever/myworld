@@ -1,0 +1,187 @@
+{% extends 'happy/base_index.html' %}
+
+{% load static %}
+
+
+{% block styles %}
+    <style>
+        .anly_list{
+            width:850px;
+            height:100%;
+            margin:0 auto;
+        }
+        .anly_title{
+            width:100%;
+            height:50px;
+            line-height:50px;
+            text-align: center;
+            font-size:24px;
+        }
+        .anly_pip{
+            width:100%;
+            overflow:hidden;
+        }
+        .anly_pip div{
+            float:left;
+            margin-right:50px;
+            margin-bottom:20px;
+        }
+        .anly_pip div:nth-child(2n){
+            margin-right:0;
+        }
+    </style>
+{% endblock %}
+
+
+{% block contens %}
+    <div class="anly_list">
+        <div class="anly_title">全国python需求分析</div>
+        <hr>
+        <div class="anly_pip">
+            <div id="pie_all_1" style="width: 400px;height:270px;"></div>
+            <div id="pie_all_2" style="width: 400px;height:270px;"></div>
+            <div id="pie_all_3" style="width: 400px;height:270px;"></div>
+            <div id="pie_all_4" style="width: 400px;height:270px;"></div>
+        </div>
+        <div class="anly_title">上海python需求分析</div>
+        <hr>
+        <div class="anly_pip">
+            <div id="pie_sh_1" style="width: 400px;height:270px;"></div>
+            <div id="pie_sh_2" style="width: 400px;height:270px;"></div>
+            <div id="pie_sh_3" style="width: 400px;height:270px;"></div>
+
+        </div>
+
+        <div style="width:100%;height:60px;"></div>
+    </div>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+    <script src="https://cdn.bootcss.com/echarts/4.1.0/echarts.js"></script>
+    <script>
+        $("#treeMenu li").removeClass("active").removeClass('open');
+        $('#treeMenu li:nth-child(6)').addClass('open');
+        $('#treeMenu li:nth-child(6)').find('li:last-child').addClass('active');
+        //封装扇形图
+        function drawpies(text_title,arry,text_name,arry_value){
+            varoption = {
+                title : {
+                    text: text_title,
+                    subtext: '数据来源boss直聘',
+                    x:'center'
+                },
+                tooltip : {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: arry
+                },
+                series : [
+                    {
+                        name: text_name,
+                        type: 'pie',
+                        radius : '55%',
+                        center: ['50%', '60%'],
+                        data:arry_value,
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            return(varoption);
+        }
+
+
+        var arry_exp = [],exps=[],workplace=[],arry_addr=[],educates=[],arry_edu=[],arry_salary=[],salarys=[];
+        var arry_salary_sh=[],salarys_sh=[],arry_exp_sh = [],exps_sh=[],educates_sh=[],arry_edu_sh=[];
+// 请求数据
+        $.ajax({
+            url:'/charts/',
+            type:'get',
+            success:function(data){
+                console.log(data);
+                if(data.result==200){
+                    odata = data.data;
+                    arry_exp = odata.exps_arry;
+                    exps = odata.exps;
+                    arry_addr = odata.arry_addr;
+                    workplace = odata.workplace;
+                    arry_edu = odata.arry_edu;
+                    educates = odata.educates;
+                    arry_salary = odata.arry_salary;
+                    salarys = odata.salarys;
+                    //上海
+                    arry_exp_sh = odata.exps_arry_sh;
+                    exps_sh = odata.exps_sh;
+                    arry_edu_sh = odata.arry_edu_sh;
+                    educates_sh = odata.educates_sh;
+                    arry_salary_sh = odata.arry_salary_sh;
+                    salarys_sh = odata.salarys_sh;
+                    //图表
+                    var myChart1 = echarts.init(document.getElementById('pie_all_1'));
+                    var myChart2 = echarts.init(document.getElementById('pie_all_2'));
+                    var myChart3 = echarts.init(document.getElementById('pie_all_3'));
+                    var myChart4 = echarts.init(document.getElementById('pie_all_4'));
+                    //上海
+                    var myChart11 = echarts.init(document.getElementById('pie_sh_1'));
+                    var myChart12 = echarts.init(document.getElementById('pie_sh_2'));
+                    var myChart13 = echarts.init(document.getElementById('pie_sh_3'));
+
+                    //绘图区域
+                    option1 = drawpies('工作年限要求',arry_exp,'工作经验占比',exps);
+                    option2 = drawpies('各城市职位占比',arry_addr,'城市占比',workplace);
+                    option3 = drawpies('学历要求',arry_edu,'学历占比',educates);
+                    option4 = drawpies('薪资分布',arry_salary,'薪资占比',salarys);
+                    //上海
+                    option11 = drawpies('上海-工作年限要求',arry_exp_sh,'经验占比',exps_sh);
+                    option12 = drawpies('上海-学历要求',arry_edu_sh,'学历占比',educates_sh);
+                    option13 = drawpies('上海-薪资分布',arry_salary_sh,'薪资占比',salarys_sh);
+                    //工作经验
+                    myChart1.setOption(option1);
+                    //城市占比
+                    myChart2.setOption(option2);
+                    //学历要求
+                    myChart3.setOption(option3);
+                    //薪资水平
+                    myChart4.setOption(option4);
+                    //上海
+                    //工作经验
+                    myChart11.setOption(option11);
+                    //学历要求
+                    myChart12.setOption(option12);
+                    //薪资水平
+                    myChart13.setOption(option13);
+
+
+                }else{
+                    alert('出错了')
+                    return;
+                }
+            },
+            error:function(data){
+                alert('网络错误，请稍后重试！')
+            }
+        });
+
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+

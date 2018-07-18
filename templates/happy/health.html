@@ -1,0 +1,129 @@
+{% extends 'happy/base_index.html' %}
+
+{% load static %}
+
+
+{% block styles %}
+    <style>
+        .i-title{
+            font-size:16px;
+            color:#179cfb;
+            padding:10px 20px;
+        }
+        .healist{
+            width: 96%;
+            height:100%;
+            margin:0 auto;
+        }
+        .healist ul{width:100%;}
+        .healist ul li{
+            width:100%;
+            padding:20px 10px;
+            padding-top:0px;
+            border-bottom:1px solid #ddd;
+        }
+        .li-top{
+            width:100%;
+            height:40px;
+            line-height:40px;
+            font-size:14px;
+        }
+        .li-top span{
+            display:block;
+            width:50%;
+            float:left;
+        }
+        .li-bot{
+            width:100%;
+            height:120px;
+            overflow:hidden;
+        }
+        .bot-left{
+            display:block;
+            float:left;
+            margin-right:15px;
+        }
+        .bot-left img{
+            height:120px;
+            display:block;
+        }
+        .bot-right{
+            width:400px;
+            height:120px;
+            float:left;
+        }
+        .dtitle{
+            height:35px;
+            line-height:36px;
+            font-size:16px;
+            font-weight: bold;
+        }
+        .bot-right p{
+            width:100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+    </style>
+{% endblock %}
+
+
+{% block contens %}
+  <p class="i-title">健康常识</p>
+  <div class="healist">
+      <ul>
+          {% for item in datalist %}
+          <li>
+              <div class="li-top">
+                  <span style="text-align:left;color:#179cfb;">{{ item.hlytype }}</span>
+                  <span style="text-align:right;color:#999;">{{ item.ptime }}</span>
+              </div>
+              <div class="li-bot">
+                  <a target="_blank" class="bot-left" href="{{ item.pic_href }}">
+                      <img src="{{ item.pic_src }}" />
+                  </a>
+                  <div class="bot-right">
+                      <div class="dtitle"><a target="_blank" href="{{ item.pic_href }}">{{ item.title }}</a></div>
+                      <p>{{ item.content }}</p>
+                      <div style="color:orangered;">{{ item.tabs }}</div>
+                  </div>
+              </div>
+          </li>
+          {% endfor %}
+      </ul>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $("#treeMenu li").removeClass("active").removeClass('open');
+        $('#treeMenu li:nth-child(7)').addClass('open');
+        $('#treeMenu li:nth-child(7)').find('li:first-child').addClass('active');
+
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

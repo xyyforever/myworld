@@ -1,0 +1,144 @@
+{% extends 'happy/base_index.html' %}
+
+{% load static %}
+
+
+{% block styles %}
+    <style>
+        .rightside{
+            background:#f2f2f2;
+        }
+        .i-title{
+            font-size:16px;
+            color:#179cfb;
+            padding:10px 20px;
+            margin-bottom:0px;
+        }
+        .smileList{
+            width:100%;
+            min-width:800px;
+            height:100%;
+        }
+
+        .smileList ul{
+            display:block;
+            width:700px;
+            margin:0 auto;
+
+        }
+        .smileList ul li{
+            width:100%;
+            padding:20px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            background:#fff;
+            margin-bottom:10px;
+        }
+        .li_top{
+            width:100%;
+            height:30px;
+            color:coral;
+            line-height:30px;
+            margin-bottom:20px;
+        }
+        .li_top img{
+            width:30px;
+            height:30px;
+            border-radius: 50%;
+            margin-right:10px;
+        }
+        .smileList ul li p{
+
+            font-size:14px;
+            word-break: break-all;
+            word-wrap: break-word;
+            text-align: justify;
+        }
+        .smileList ul li p a{
+            color:#404040;
+        }
+        .li_bot{
+           width:100%;
+        }
+        .li_bot{
+            width:100%;
+            display:block;
+        }
+        .sinfo{
+            width:100%;
+            color:#999;
+            font-size:12px;
+            margin-top:20px;
+        }
+    </style>
+{% endblock %}
+
+
+{% block contens %}
+  <p class="i-title">精彩小段子</p>
+  <div class="smileList">
+      <ul>
+
+      </ul>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $("#treeMenu li").removeClass("active").removeClass('open');
+        $('#treeMenu li:nth-child(7)').addClass('open');
+        $('#treeMenu li:nth-child(7)').find('li:last-child').addClass('active');
+        $.ajax({
+            url:"{% static 'data/smile.json' %}",
+            type:'get',
+            success:function(data){
+//                console.log(data)
+                ohtml = '';
+                for(var i=0;i<data.length;i++){
+                    ohtml+='<li><div class="li_top"><img src="'+data[i].headpic
+                        +'" /><span>'+data[i].nickname
+                        +'</span></div><p><a target="_blank" href="https://www.qiushibaike.com'+data[i].contenthref
+                        +'">'+data[i].content
+                        +'</a></p>';
+                    if(data[i].img){
+                        ohtml+='<div class="li_bot"><a target="_blank" href="https://www.qiushibaike.com'+data[i].contenthref
+                            +'"><img src="'+data[i].img
+                            +'" alt="图片"></a></div>';
+                    }else{
+                        ohtml+='<div class="li_bot"></div>';
+                    }
+                    ohtml+='<div class="sinfo"><span>'+data[i].vote
+                        +'</span> 好笑&nbsp;&nbsp;<span>'+data[i].comment+'</span> 评论</div></li>';
+                }
+                $(".smileList ul").html(ohtml)
+            },
+            error:function(){
+                alert('网络错误')
+            }
+        })
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

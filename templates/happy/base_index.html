@@ -1,0 +1,94 @@
+{% extends 'happy/base.html' %}
+
+{% load static %}
+
+
+{% block styles %}
+
+{% endblock %}
+
+
+{% block header %}
+    <header>
+        <div class="hleft" style="float:left;">
+            <span class="logok logname">欢迎：<span style="color:#fff;font-size:18px;">XXX</span></span>
+        </div>
+        <div class="hright logok" style="float:right;cursor:pointer;" onclick="outlog(this)">退出登录</div>
+
+    </header>
+
+{% endblock %}
+
+{% block content %}
+<div class="leftside">
+    <nav class="menu" data-ride="menu" style="width: 200px">
+      <ul id="treeMenu" class="tree tree-menu" data-ride="tree">
+        <li class="active"><a href="/"><i class="icon icon-th"></i>首页</a></li>
+        <li><a href="/edit/"><i class="icon icon-user"></i>个人资料</a></li>
+        <li>
+          <a href="#"><i class="icon icon-music"></i>音乐</a>
+          <ul>
+            <li><a href="/hot_music/1/">热门音乐</a></li>
+            <li><a href="/load_music/">音乐下载</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#"><i class="icon icon-play-circle"></i>电影</a>
+          <ul>
+            <li><a href="/hot_movie/">热门电影在线观看</a></li>
+            <li><a href="/load_movielist/">最新电影下载</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#"><i class="icon icon-book"></i>小说</a>
+          <ul>
+            <li><a href="#">热门小说在线观看</a></li>
+            <li><a href="#">小说下载</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#"><i class="icon icon-time"></i>工作</a>
+          <ul>
+            <li><a href="/python_pos/全国/">python职位</a></li>
+            <li><a href="/analysis/">市场需求分析</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#"><i class="icon icon-coffee"></i>生活</a>
+          <ul>
+            <li><a href="/heathy/">健康小常识</a></li>
+            <li><a href="/smile/">精彩小段子</a></li>
+          </ul>
+        </li>
+        <li><a href="/garbage/"><i class="icon icon-trash"></i>垃圾篓</a></li>
+      </ul>
+    </nav>
+</div>
+<div class="rightside">
+    {% block contens %}
+
+    {% endblock %}
+</div>
+
+
+<script>
+
+</script>
+
+
+{% endblock %}
+
+
+
+{% block scripts %}
+
+{% endblock %}
+
+
+
+
+
+
+
+
+

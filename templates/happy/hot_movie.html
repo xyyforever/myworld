@@ -1,0 +1,154 @@
+{% extends 'happy/base_index.html' %}
+
+{% load static %}
+
+
+{% block styles %}
+    <style>
+        .i-title{
+            font-size:16px;
+            color:#179cfb;
+            padding:10px 20px;
+        }
+        #hot_list{
+            width:850px;
+            margin:0 auto;
+        }
+        #hot_list ul{
+            overflow:hidden;
+        }
+        #hot_list ul li{
+            float:left;
+            width:140px;
+            height:230px;
+            margin-right:30px;
+            margin-bottom:20px;
+            background:#eee;
+        }
+        #hot_list ul a:nth-child(5n) li{
+            margin-right:0px;
+        }
+        #hot_list ul li dl dt{
+            width:100%;
+            height:190px;
+            position:relative;
+        }
+        #hot_list ul li dl dd{font-size:14px;padding-left:5px;box-sizing:border-box;}
+
+        .portpic{
+            width:100%;
+            height:100%;
+        }
+        #hot_list ul li dl dd span:first-child{
+            color:#404040;
+            text-align:left;
+            margin-right:10px;
+        }
+        #hot_list ul li dl dd:hover span:first-child{
+            color:#179cfb;
+        }
+        #hot_list ul li dl dd span:last-child{
+            color:red;
+            text-align:right;
+        }
+
+        .pager{
+            margin-left:15%;
+        }
+    </style>
+{% endblock %}
+
+
+{% block contens %}
+    <p class="i-title">热门电影</p>
+    <div id="hot_list">
+        <ul>
+            {% for item in hotlist %}
+            <a target="_blank" href="{{ item.jump_href }}">
+                <li title="{{ item.movie_name }}">
+                    <dl>
+                        <dt>
+                            <img class="portpic" alt="{{ item.movie_name }}" src="{{ item.movie_pic }}" />
+                        </dt>
+                        <dd>
+                            <div>
+                                <span>{{ item.movie_name|slice:"6" }}</span>
+                                <span>{{ item.movie_score }}</span>
+                            </div>
+                            <div style="color:#999;font-size:11px;">{{ item.movie_des }}</div>
+                        </dd>
+                    </dl>
+                </li>
+            </a>
+            {% endfor %}
+        </ul>
+    </div>
+<!--分页-->
+
+    <ul class="pager">
+        {% if page.has_previous %}
+                <li class="previous">
+                <a href="/hot_movie/{{ page.previous_page_number }}/" aria-label="Previous">
+                   &laquo;
+                </a>
+            {% else %}
+                <li class="previous" disabled="disabled">
+                <a href="javascript:">
+                   <span aria-hidden="true">&laquo;</span>
+                </a>
+            {% endif %}
+      </li>
+      {% for item in pagelist %}
+        {% if page.number == item %}
+            <li class="active">
+        {% else %}
+            <li>
+        {% endif %}
+        <a href="/hot_movie/{{ item }}/">{{ item }}</a></li>
+      {% endfor %}
+      {% if page.has_next %}
+           <li class="next">
+            <a href="/hot_movie/{{page.next_page_number}}/">
+               &raquo;
+            </a>
+      {% else %}
+            <li class="next" disabled="disabled">
+            <a href="javascript:">
+               &raquo;
+            </a>
+      {% endif %}
+      </li>
+    </ul>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $("#treeMenu li").removeClass("active").removeClass('open');
+        $('#treeMenu li:nth-child(4)').addClass('open');
+        $('#treeMenu li:nth-child(4)').find('li:first-child').addClass('active');
+
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

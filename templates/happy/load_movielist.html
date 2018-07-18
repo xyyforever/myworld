@@ -1,0 +1,126 @@
+{% extends 'happy/base_index.html' %}
+
+{% load static %}
+
+
+{% block styles %}
+    <style>
+        .i-title{
+            font-size:16px;
+            color:#179cfb;
+            padding:10px 20px;
+        }
+        #mdown_list{
+            width:100%;
+        }
+        #mdown_list ul li{
+            width:100%;
+            margin-bottom:5px;
+        }
+        #mdown_list ul li table{
+            width:96%;
+        }
+        table tr{
+            width:100%;
+        }
+        table tr td{
+            width:100%;
+            padding:5px;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+        .pager{
+            margin-left:25%;
+        }
+    </style>
+{% endblock %}
+
+
+{% block contens %}
+    <p class="i-title">最新音乐下载</p>
+    <div id="mdown_list">
+        <ul>
+            {% for item in mdown_list %}
+            <li>
+                <table cellspacing="0" cellpadding="2" align="center" border="1">
+                    <tr><td style="color:blue;">{{ item.movie_name }}</td></tr>
+                    <tr>
+                        <td>
+                            <img alt="{{ item.movie_name }}" src="{{ item.movie_pic }}" style="display:block;float:left;margin-right:15px;" />
+                            {% if item.movie_intract %}
+                                <p style="width:70%;float:left;min-width:600px;">{{ item.movie_intract }}</p>
+                            {% else %}
+                                <p style="width:70%;float:left;min-width:600px;">暂无简介</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span>下载地址：</span>
+                            <a target="_blank" href='{{ item.movie_download_url }}'>{{ item.movie_download_url }}</a>
+                        </td>
+                    </tr>
+                </table>
+            </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+    <!--分页-->
+
+    <ul class="pager">
+        {% if page.has_previous %}
+                <li class="previous">
+                <a href="/load_movielist/{{ page.previous_page_number }}/" aria-label="Previous">
+                   &laquo;
+                </a>
+            {% else %}
+                <li class="previous" disabled="disabled">
+                <a href="javascript:">
+                   <span aria-hidden="true">&laquo;</span>
+                </a>
+            {% endif %}
+      </li>
+      {% for item in pagelist %}
+        {% if page.number == item %}
+            <li class="active">
+        {% else %}
+            <li>
+        {% endif %}
+        <a href="/load_movielist/{{ item }}/">{{ item }}</a></li>
+      {% endfor %}
+      {% if page.has_next %}
+           <li class="next">
+            <a href="/load_movielist/{{page.next_page_number}}/">
+               &raquo;
+            </a>
+      {% else %}
+            <li class="next" disabled="disabled">
+            <a href="javascript:">
+               &raquo;
+            </a>
+      {% endif %}
+      </li>
+    </ul>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+    <script>
+        $("#treeMenu li").removeClass("active").removeClass('open');
+        $('#treeMenu li:nth-child(4)').addClass('open');
+        $('#treeMenu li:nth-child(4)').find('li:last-child').addClass('active');
+
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+

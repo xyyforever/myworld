@@ -1,0 +1,171 @@
+{% extends 'happy/base_index.html' %}
+
+{% load static %}
+
+
+{% block styles %}
+    <style>
+        .i-title{
+            font-size:16px;
+            color:#179cfb;
+            padding:10px 20px;
+        }
+        #hot_list{
+            width:820px;
+            margin:0 auto;
+        }
+        #hot_list ul{
+            overflow:hidden;
+        }
+        #hot_list ul li{
+            float:left;
+            width:135px;
+            height:200px;
+            margin-right:30px;
+            margin-bottom:20px;
+        }
+        #hot_list ul li:nth-child(5n){
+            margin-right:0px;
+        }
+        #hot_list ul li dl dt{
+            width:100%;
+            height:140px;
+            position:relative;
+        }
+        #hot_list ul li dl dd{font-size:14px;}
+        .portpic{
+            width:100%;
+            height:100%;
+        }
+        .alplay{
+            width:100%;
+            height:100%;
+            position:absolute;
+            top:0;
+            left:0;
+            background:rgba(0,0,0,.7);
+            display:none;
+        }
+        .alplay img{
+            width:50%;
+            display:block;
+            margin:32px;
+        }
+        .alinfo{
+            width:100%;
+            height:20px;
+            background:rgba(0,0,0,.3);
+            text-align:right;
+            font-size:12px;
+            color:#ddd;
+            position:absolute;
+            bottom:0;
+            z-index:2;
+            line-height:20px;
+        }
+        .alinfo img{
+            width:12px;
+            height:12px;
+        }
+        .pager{
+            margin-left:25%;
+        }
+    </style>
+{% endblock %}
+
+
+{% block contens %}
+    <p class="i-title">热门音乐</p>
+    <div id="hot_list">
+        <ul>
+            {% for item in hotlist  %}
+                <li>
+                    <dl>
+                        <dt>
+                            <img class="portpic" src="{{ item.music_pic }}" />
+                            <a target="_blank" href="http://play.taihe.com/?__m=mboxCtrl.playSongMenu&__a={{ item.music_id }}&__o=/songlist/tag/全部||songMenu&fr=-1||-1#"><div class="alplay"><img src="{% static 'img/album.png' %}" /></div></a>
+                            <div class="alinfo"><img src="{% static 'img/1.png' %}" /> <span style="margin:0 5px;">{{ item.listen_num }}</span></div>
+                        </dt>
+                        <dd>
+                            <div>{{ item.song_title }}</div>
+                            <div style="color:#999;font-size:12px;">by {{ item.song_user }}</div>
+                        </dd>
+                    </dl>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+<!--分页-->
+
+    <ul class="pager">
+        {% if page.has_previous %}
+                <li class="previous">
+                <a href="/hot_music/{{ page.previous_page_number }}/" aria-label="Previous">
+                   &laquo;
+                </a>
+            {% else %}
+                <li class="previous" disabled="disabled">
+                <a href="javascript:">
+                   <span aria-hidden="true">&laquo;</span>
+                </a>
+            {% endif %}
+      </li>
+      {% for item in pagelist %}
+        {% if page.number == item %}
+            <li class="active">
+        {% else %}
+            <li>
+        {% endif %}
+        <a href="/hot_music/{{ item }}/">{{ item }}</a></li>
+      {% endfor %}
+      {% if page.has_next %}
+           <li class="next">
+            <a href="/hot_music/{{page.next_page_number}}/">
+               &raquo;
+            </a>
+      {% else %}
+            <li class="next" disabled="disabled">
+            <a href="javascript:">
+               &raquo;
+            </a>
+      {% endif %}
+      </li>
+    </ul>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $("#treeMenu li").removeClass("active").removeClass('open');
+        $('#treeMenu li:nth-child(3)').addClass('open');
+        $('#treeMenu li:nth-child(3)').find('li:first-child').addClass('active');
+
+        $("#hot_list ul li dl dt").on('mouseover',function(){
+            $(this).find('.alplay').show()
+        }).on('mouseout',function(){
+            $(this).find('.alplay').hide()
+        })
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

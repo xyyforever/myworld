@@ -1,0 +1,121 @@
+{% extends 'happy/base.html' %}
+{% load static %}
+
+{% block styles %}
+    <style>
+        #loginpg{
+            width:100%;
+            height:100%;
+            padding-top:60px;
+            box-sizing: border-box;
+            display:none;
+        }
+        .tlogo{
+            width:200px;
+            display:block;
+            margin:0 auto;
+        }
+        #loginpg div{
+            text-align:center;
+        }
+        #loginpg div input{
+            padding:10px 5px;
+            border-radius: 4px;
+            outline: none;
+            border:none;
+            border:1px solid #179cfb;
+            width:355px;
+            margin:20px 0;
+        }
+        .logbtn{
+            width:400px;
+            height:50px;
+            display:block;
+            font-size:14px;
+            margin:0 auto;
+            background:#179cfb;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            outline: none;
+            border:none;
+            margin-top:24px;
+            color:#fff;
+        }
+        .logbtn:active{
+            opacity: 0.8;
+        }
+        #loginpg p{
+            width:400px;
+            margin:0 auto;
+            margin-top:10px;
+        }
+    </style>
+{% endblock %}
+
+{% block header %}
+    <header>
+        <div class="hleft" style="float:right;">
+            <span class="onlog"><a href="/jumplogin/">登录</a></span>&nbsp;&nbsp;&nbsp;<span class="onlog" style="display:none;">|</span>&nbsp;&nbsp;&nbsp;
+            <span class="onlog"><a href="/jumpregist/">注册</a></span>
+        </div>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <div id="loginpg">
+        <img src="{% static 'img/logo.jpg' %}" class="tlogo" />
+        <div>
+            用户名：<input type="text" placeholder="请输入用户名" class="user_name" />
+        </div>
+        <div>
+            密&nbsp;&nbsp;&nbsp;码：<input type="password" placeholder="请输入密码" class="user_pass" />
+        </div>
+        <button class="logbtn" onclick="loginow(this)">立即登录</button>
+        <p>
+            <span style="float:left;"><a href="/jumpregist/">注册</a></span>
+            <span style="float:right;"><a href="#">忘记密码？找回</a></span>
+        </p>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        $(function(){
+            $("#loginpg").show();
+        });
+
+        function loginow(obj) {
+            var myname = $('.user_name').val(), mypwd = $('.user_pass').val();
+            console.log(myname,mypwd);
+            $.ajax({
+                url: '/login/',
+                type: 'post',
+                data: {'myname': myname, 'mypwd': mypwd},
+                success: function (data){
+                    console.log(data);
+                    if(data.result == '200'){
+                        local.set("userInfo",{"token":data.token,"userId":data.user_id,"userName":data.user_name});
+                        window.location.href = "/"
+
+                    } else {
+                        alert(data.msg)
+                    }
+                },
+                error: function () {
+                    alert('请求错误，请稍后重试！')
+                }
+            });
+        }
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
